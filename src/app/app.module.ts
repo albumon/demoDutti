@@ -15,18 +15,19 @@ const COMPONENTS = [
   PrincipalComponent
 ];
 
+const IMPORTS = [
+  BrowserModule,
+  AppRoutingModule,
+  FormsModule,
+  ReactiveFormsModule,
+  PrincipalModule,
+  UserManagementModule
+];
+
 
 @NgModule({
   declarations: COMPONENTS,
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    FormsModule,
-    ReactiveFormsModule,
-    PrincipalModule,
-    UserManagementModule
-  ],
-  providers: [],
+  imports: IMPORTS,
   bootstrap: [AppComponent]
 })
 export class AppModule { }

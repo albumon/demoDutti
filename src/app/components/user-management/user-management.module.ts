@@ -8,6 +8,9 @@ import { UserManagementRoutingModule } from './user-management-routing.module';
 import { LoginComponent } from './ts/login.component';
 import { RegisterComponent } from './ts/register.component';
 
+// Services
+import { LocalStorageService } from 'src/app/services/storage/local-storage.service';
+
 // Specify the imports for the module
 const IMPORTS = [
     CommonModule,
@@ -22,8 +25,14 @@ const DECLARATIONS = [
     RegisterComponent
 ];
 
+// Specify the providers for the module
+const PROVIDERS = [
+  LocalStorageService
+];
+
 @NgModule({
   declarations: DECLARATIONS,
-  imports: IMPORTS
+  imports: IMPORTS,
+  providers: PROVIDERS
 })
 export class UserManagementModule { }

@@ -37,3 +37,39 @@ Navigate to `http://localhost:4200/`.
 
 URL del repositorio: https://github.com/albumon/demoDutti
 
+Modificaciones realizadas sobre el proyecto
+1. Modificación de la estructura
+    Se ha modificado la estructura del proyecto, organizando todos los ficheros de la siguiente forma:
+        - Carpetas HTML: contienen los templates HTML de los componentes.
+        - Carpetas SCSS: contienen los ficheros SCSS de estilos de los componentes.
+        - Carpetas TS: contienen todos los ficheros TypeScript de los componentes. En este caso no se incluyen los ficheros de los módulos y los routers, estos se dejan en la carpeta raíz del componente principal al que pertenezcan.
+
+    Se ha organizado el proyecto de forma que los componentes se quedan estructurados de la siguiente manera:
+        - principal: contiene el componente principal que es el que muestra el menú y el que se encargará de cargar las páginas Ships, Page One y Page Two.
+        - user-management: contiene todo lo relacionado con el proceso de login y registro de los usuarios.
+    
+    En lo que a servicios se refiere, se han encapsulado los servicios dependiendo de para lo que se vayan a utilizar, por ejemplo:
+        - ships: servicios para la obtención de la información de las naves
+        - storage: servicios para todo lo relacionado con la manipulación de datos del LocalStorage
+
+        De esta forma tenemos todos los servicios organizados y centralizados
+    
+    También se ha creado la carpeta shared, la cual contiene objetos y clases que serán utilizadas por todo el proyecto, como por ejemplo:
+        - Models: contiene los modelos que se utilizarán en el proyecto:
+            - deserializable.model.ts: interfaz para poder deserializar objetos JSON en los modelos que se hayan creado
+            - ship.model.ts: objeto para modelar las naves, implementa la interfaz deserializable para poder convertir un objeto JSON en un objeto Ship que nos permita consultar y manipular su información de forma que no sea necesario tener que ir instanciándolos uno a uno cuando se obtengan de la API
+            - user.model.ts: modelo para la gestión de los usuarios. Con este modelo será más fácil tener mapeados los usuarios, también implementa la interfaz deserializable por si quisiéramos utilizarla al obtener usuarios de una API o un servidor.
+        - Util: contiene clases que pueden ser de utilidad en el proyecto. En este caso sólo se ha creado la clase general-util.ts que se describirá a continuación, pero esto sería útil para tener por ejemplo clases que nos permitan encapsular métodos para manejo de fechas, JSON, etc...de esta forma tendríamos todo centralizado.
+            - general-util.ts: se ha creado esta clase para poder tener métodos que se suelen utilizar en el proyecto y así tenerlo centralizado, de esta forma ahorramos duplicar código por todo el proyecto.
+            En este caso por ejemplo contiene 3 funciones:
+                - isWorkableObject: función que recibe un objeto de cualquier tipo y nos devuelve un flag indicando si es un objeto con el que se puede trabajar o no, es decir, si es un objeto distinto de nulo o undefined.
+                - hasValue: es una función que podemos utilizar para comprobar si un string tiene valor o no, al igual que la anterior nos retorna un flag indicando si lo tiene o no.
+                - hasValueArray: tiene la misma función que la anterior, pero en este caso con Arrays, nos permite comprobar si un array tiene registros o no.
+
+2. Implementación de la funcionalidad de Login y Registro
+    Se ha implementado el Login y Registro de usuarios utilizando el LocalStorage.
+    Se ha añadido un campo más al registro, la contraseña, de esta forma podemos utilizarla
+    para comprobar si el usuario está haciendo un login correcto.
+
+    En el formulario de registro también se ha añadido una comprobación más que es para evitar que se puedan registrar 2 usuarios con el mismo username, mostrando un error si se intenta hacer.
+

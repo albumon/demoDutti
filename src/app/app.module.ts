@@ -9,6 +9,10 @@ import { UserManagementModule } from './components/user-management/user-manageme
 // Components
 import { AppComponent } from './app.component';
 import { PrincipalComponent } from './components/principal/ts/principal.component';
+import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { EffectsModule } from '@ngrx/effects';
+import { effects, reducers } from './store';
 
 const COMPONENTS = [
   AppComponent,
@@ -21,7 +25,10 @@ const IMPORTS = [
   FormsModule,
   ReactiveFormsModule,
   PrincipalModule,
-  UserManagementModule
+  UserManagementModule,
+  StoreModule.forRoot(reducers),
+  StoreDevtoolsModule.instrument({}),
+  EffectsModule.forRoot(effects)
 ];
 
 

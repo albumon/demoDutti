@@ -17,7 +17,7 @@ describe('ShipsDetailsComponent', () => {
   @Pipe({name: 'paginate'})
   class MockPipe implements PipeTransform {
       transform(value: number): number {
-          //Do stuff here, if you want
+          // Do stuff here, if you want
           return value;
       }
   }

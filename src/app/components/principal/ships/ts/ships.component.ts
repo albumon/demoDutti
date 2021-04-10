@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ShipsService } from 'src/app/services/ships.service';
+import { ShipsService } from 'src/app/services/ships/ships.service';
 
 @Component({
   selector: 'app-ships',
-  templateUrl: './ships.component.html',
-  styleUrls: ['./ships.component.scss']
+  templateUrl: '../template/ships.component.html',
+  styleUrls: ['../scss/ships.component.scss']
 })
 export class ShipsComponent implements OnInit {
 
@@ -13,9 +13,10 @@ export class ShipsComponent implements OnInit {
   constructor( private shipsService: ShipsService) {}
 
   ngOnInit(): void {
+    console.log('incializado');
     this.shipsService.getShips().subscribe((ships) => {
       this.dataList = ships;
-      console.log('SHIPS -->', this.dataList.results)
-    })
+      console.log('SHIPS -->', this.dataList.results);
+    });
   }
 }

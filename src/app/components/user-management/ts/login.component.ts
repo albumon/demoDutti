@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
+import { LocalStorageService } from 'src/app/services/storage/local-storage.service';
+import { User } from 'src/app/shared/models/user.model';
+import { GeneralUtil } from 'src/app/shared/util/general-util';
 
 // JSON
 import usersList from 'src/assets/json/users.json';
@@ -12,15 +15,17 @@ import usersList from 'src/assets/json/users.json';
 })
 export class LoginComponent implements OnInit {
 
-  loginForm: FormGroup;
-  dataLoading = false;
-  users: any = usersList;
-  unregistered = false;
-  invalid = false;
+  public loginForm: FormGroup;
+  public dataLoading = false;
+  public unregistered = false;
+
+  private users: any = usersList;
+  private invalid = false;
 
   constructor(
     private fb: FormBuilder,
-    private router: Router
+    private router: Router,
+    private storageService: LocalStorageService
   ) { }
 
   ngOnInit(): void {
@@ -29,18 +34,31 @@ export class LoginComponent implements OnInit {
       password: [ '', [Validators.required, Validators.minLength(6)]]
     });
   }
-  loginUser() {
-    if (this.loginForm.invalid) { return; }
-    // TODO : Falta integrar el servicio para autentificar al usuario
-    // JSON simulando usuarios
-    const userLogin = this.loginForm.value.username;
-    const filterJson = this.users.filter((user: any) => {
-      return user.first_name === userLogin;
-    });
-    if (filterJson.length > 0) {
-      this.router.navigate(['/principal/ships']);
-    } else {
-      this.unregistered = true;
+
+  /**
+   * Method for users login
+   */
+  public loginUser() {
+    // Check if the form is valid
+    if (!this.loginForm.invalid) {
+      // Obtain user and password
+      const userLogin = this.loginForm.value.username;
+      const password = this.loginForm.value.password;
+      const registeredUsers: User[] = this.storageService.get('users');
+      // Check if there is registered users
+      if (GeneralUtil.hasValueArray(registeredUsers)) {
+        const existsUser = registeredUsers.filter((user: User) => {
+          return user.firstName === userLogin &&
+            user.password === password;
+        });
+        if (existsUser) {
+          this.router.navigate(['/principal/ships']);
+        } else {
+          this.unregistered = true;
+        }
+      } else {
+        this.unregistered = true;
+      }
     }
   }
 }

@@ -9,18 +9,31 @@ import { PageOneComponent } from './page-one/ts/page-one.component';
 import { PageTwoComponent } from './page-two/ts/page-two.component';
 import { ShipsDetailsComponent } from './ships/ships-details/ts/ships-details.component';
 
+// Services
+import { ShipsService } from 'src/app/services/ships/ships.service';
+
+
+const DECLARATIONS = [
+  ShipsComponent,
+  ShipsDetailsComponent,
+  PageOneComponent,
+  PageTwoComponent
+];
+
+const IMPORTS = [
+  CommonModule,
+  PrincipalComponentsRoutingModule,
+  HttpClientModule,
+  NgxPaginationModule
+];
+
+const PROVIDERS = [
+  ShipsService
+];
+
 @NgModule({
-  declarations: [
-    ShipsComponent,
-    ShipsDetailsComponent,
-    PageOneComponent,
-    PageTwoComponent
-  ],
-  imports: [
-    CommonModule,
-    PrincipalComponentsRoutingModule,
-    HttpClientModule,
-    NgxPaginationModule
-  ]
+  declarations: DECLARATIONS,
+  imports: IMPORTS,
+  providers: PROVIDERS
 })
 export class PrincipalModule { }

@@ -1,4 +1,7 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
+import { Ship } from 'src/app/shared/models/ship.model';
+import { GeneralUtil } from 'src/app/shared/util/general-util';
+
 declare var $: any;
 
 
@@ -7,9 +10,10 @@ declare var $: any;
   templateUrl: '../template/ships-details.component.html',
   styleUrls: ['../scss/ships-details.component.scss']
 })
-export class ShipsDetailsComponent implements OnInit {
+export class ShipsDetailsComponent implements OnInit, OnChanges {
 
-  @Input() dataList: any;
+  @Input() dataList: Ship[];
+  @Output() nextLoad: EventEmitter<any> = new EventEmitter<any>();
   config: any;
   shipId = '';
   url = '';
@@ -22,11 +26,18 @@ export class ShipsDetailsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-      this.config = {
-        itemsPerPage: 5,
-        currentPage: 1,
-        totalItems: this.dataList.length
-      };
+      this.loadConfig();
+  }
+
+  /**
+   * Method called when @Input() changes
+   * @param changes changes
+   */
+  ngOnChanges(changes: SimpleChanges) {
+    if (GeneralUtil.isWorkableObject(changes.dataList) && GeneralUtil.isWorkableObject(this.config)) {
+      // dataList has changed
+      this.refreshConfig();
+    }
   }
 
   getStarshipId(url) {
@@ -35,8 +46,25 @@ export class ShipsDetailsComponent implements OnInit {
     return urlImage !== '';
   }
 
+  loadConfig() {
+    this.config = {
+      itemsPerPage: 5,
+      currentPage: 1,
+      totalItems: this.dataList.length
+    };
+  }
+
+  refreshConfig() {
+    this.config.totalItems = this.dataList.length;
+  }
+
   pageChanged(event){
     this.config.currentPage = event;
+    // Calculate if it is the last page
+    if (this.config.currentPage === (this.config.totalItems / this.config.itemsPerPage)) {
+      // Load the next page
+      this.nextLoad.emit();
+    }
   }
 
   openDetails(details) {

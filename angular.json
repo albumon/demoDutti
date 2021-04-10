@@ -70,7 +70,8 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "massimo-dutti:build"
+            "browserTarget": "massimo-dutti:build",
+            "proxyConfig": "src/proxy.conf.json"
           },
           "configurations": {
             "production": {

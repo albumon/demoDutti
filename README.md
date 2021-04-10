@@ -37,7 +37,7 @@ Navigate to `http://localhost:4200/`.
 
 URL del repositorio: https://github.com/albumon/demoDutti
 
-Modificaciones realizadas sobre el proyecto
+Notas aclaratorias sobre las modificaciones que se han hecho en el proyecto según cada punto
 1. Modificación de la estructura
     Se ha modificado la estructura del proyecto, organizando todos los ficheros de la siguiente forma:
         - Carpetas HTML: contienen los templates HTML de los componentes.
@@ -73,3 +73,14 @@ Modificaciones realizadas sobre el proyecto
 
     En el formulario de registro también se ha añadido una comprobación más que es para evitar que se puedan registrar 2 usuarios con el mismo username, mostrando un error si se intenta hacer.
 
+4. Implementación de la carga de múltiples páginas de naves
+    Para la implementación de la carga de múltiples páginas lo que se ha hecho es, esperar a que el usuario se encuentre en la última página de las que se están mostrando y en ese momento, lanzar la carga de la siguiente, de esta forma si en la primera carga obtenemos 2 páginas y el usuario sólo consulta la información de la primera, no es necesario cargar a partir de la segunda página ya que no va a seguir consultando datos, así ahorramos llamadas al servidor y por lo tanto, recursos.
+
+    Para la carga de la primera página se estaba utilizando la url -> https://swapi.dev/api/starships/
+    Al utilizar esta url no había ningún problema, sin embargo, cuando se intentaba consultar la siguiente url de la API para obtener el resto de naves, arrojaba un error del CORS.
+    Se ha intentado solucionar modificando los headers de la llamada, pero no daba resultado, por lo que se ha decidido añadir una configuración proxy a la aplicación para poder evitar
+    este error y así obtener los datos de la API correctamente.
+
+    Al parecer esta API no está siendo ya mantenida, en su lugar existe -> https://www.swapi.tech/api/starships/' la cual funciona correctamente para todas las páginas.
+
+    La configuración del proxy se ha añadido en el fichero angular.json -> "proxyConfig": "src/proxy.conf.json"

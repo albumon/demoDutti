@@ -12,19 +12,24 @@ import * as fromstore from '../../../../store';
 })
 export class ShipsComponent implements OnInit {
 
-  public dataList: any = [];
-
-  public shipList: Ship[] = [];
+  public dataList: Ship[] = [];
 
   constructor( private store: Store<AppState> ) {
     // Subscribe to store
     store.select(fromstore.getShips).subscribe((ships) => {
-      this.dataList = ships;
+      this.dataList = this.dataList.concat(ships);
     });
   }
 
   ngOnInit(): void {
     // Notify the store to load the ships
+    this.store.dispatch(new fromstore.LoadShip());
+  }
+
+  /**
+   * Method called to dispatch the next page load
+   */
+  nextLoad(): void {
     this.store.dispatch(new fromstore.LoadShip());
   }
 }

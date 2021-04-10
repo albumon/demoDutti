@@ -1,0 +1,10 @@
+{
+    "/api/*": {
+      "target": "ttps://swapi.dev/api/",
+      "secure": true,
+      "pathRewrite": {
+      "^/api": ""
+    },
+      "changeOrigin": true
+    }
+  }

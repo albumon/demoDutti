@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { Ship } from 'src/app/shared/models/ship.model';
 
 @Injectable()
 export class ShipsService {
@@ -15,11 +16,15 @@ export class ShipsService {
     headers: new HttpHeaders(this.headerDict),
   };
 
-  constructor( private http: HttpClient ) {}
+  constructor(private http: HttpClient) { }
 
-  getShips(): Observable<any>{
+  getShips(): Observable<any> {
     return this.http.get(this.url).pipe(
-      map( data => data)
-      );
+      map((data: any) => {
+        return data.results.map((ship: Ship) => {
+          return new Ship().deserialize(ship);
+        });
+      })
+    );
   }
 }

@@ -73,6 +73,12 @@ Notas aclaratorias sobre las modificaciones que se han hecho en el proyecto seg�
 
     En el formulario de registro también se ha añadido una comprobación más que es para evitar que se puedan registrar 2 usuarios con el mismo username, mostrando un error si se intenta hacer.
 
+3. Implementación del patrón de diseño REDUX
+    Se ha implementado el patrón de diseño REDUX en la parte de la carga de las naves.
+    Con esta implementación, tenemos el Store que es el que se encarga de la funcionalidad central de este patrón.
+
+    El componente que muestra el listado de las naves se encarga de lanzar una acción, la cual llegará al effect que será el que se encargue de llamar al servicio que obtiene las naves. Una vez obtenidas las naves, se notificará con otra acción al reducer, que será el que finalmente modifique el state, y enviará los datos al componente para poder mostrar el listado.
+
 4. Implementación de la carga de múltiples páginas de naves
     Para la implementación de la carga de múltiples páginas lo que se ha hecho es, esperar a que el usuario se encuentre en la última página de las que se están mostrando y en ese momento, lanzar la carga de la siguiente, de esta forma si en la primera carga obtenemos 2 páginas y el usuario sólo consulta la información de la primera, no es necesario cargar a partir de la segunda página ya que no va a seguir consultando datos, así ahorramos llamadas al servidor y por lo tanto, recursos.
 
@@ -84,3 +90,17 @@ Notas aclaratorias sobre las modificaciones que se han hecho en el proyecto seg�
     Al parecer esta API no está siendo ya mantenida, en su lugar existe -> https://www.swapi.tech/api/starships/' la cual funciona correctamente para todas las páginas.
 
     La configuración del proxy se ha añadido en el fichero angular.json -> "proxyConfig": "src/proxy.conf.json"
+
+5. Implementación de test unitarios para los procesos de login y registro
+    Se han implementado test unitarios con JEST para la parte del login y registro de usuarios en la aplicación.
+    Los tests que se han implementado, realizan las validaciones para comprobar que los campos se rellenan y vlaidan correctamente, del proceso final de login y registro no he podido hacerlo ya que al parecer el LocalStorage no está disponible en los tests de JEST.
+
+    He intentado hacer un mockup del localStorage para poder utilizarlo pero no he sido capaz ya que el localStorage es una propiedad de sólo lectura, por lo que no lo he podido sustituir por el mockup.
+
+7. Medidas para evitar la saturación de los servidores
+
+    Cuando tenemos aplicaciones que poseen listados con imágenes como es el caso, una de las opciones que podríamos tomar sería cachear las imágenes que obtengamos del servidor, pero actualmente esto ya lo hacen los navegadores a no ser que el servidor devuelva los recursos con una cabecera "no-cache" para evitar que el navegador incluya en la caché esos recursos.
+
+    Si tenemos en cuenta que esto ya se hace, lo que se puede hacer para evitar una saturación del servidor cuando tenemos muchos usuarios lo que se podría tener es instalado en el servidor un balanceador de carga de manera que se repartiesen las conexiones a varios servidores, de esta forma se puede evitar la saturación de uno sólo.
+
+    Hay varios métodos que se pueden seguir a la hora de utilizar un balanceador de carga y decidir cómo se reparten las conexiones, en mi caso el preferido es el LeastConnection, el cual enviará las conexiones siempre al servidor que menos conexiones activas tenga, de esta forma siempre vamos equilibrando las peticiones que tiene que atender cada uno de los servidores.

@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { ShipsService } from 'src/app/services/ships/ships.service';
 import { Ship } from 'src/app/shared/models/ship.model';
 import { AppState } from 'src/app/store';
 import * as fromstore from '../../../../store';

@@ -1,12 +1,13 @@
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { BehaviorSubject } from 'rxjs';
 import { ShipsService } from 'src/app/services/ships/ships.service';
-
 import { ShipsComponent } from './ships.component';
 
 
 
-import { BehaviorSubject, of } from 'rxjs';
+
+
 
 describe('ShipsComponent', () => {
   let component: ShipsComponent;
@@ -18,7 +19,7 @@ describe('ShipsComponent', () => {
 
 
   @Component({
-    selector: 'ships-details',
+    selector: 'app-ships-details',
     template: '<p>Mock Ship Details</p>'
   })
   class MockShipDetails {
@@ -29,7 +30,7 @@ describe('ShipsComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ ShipsComponent, MockShipDetails ],
       providers: [
-        {provide: ShipsService, useValue: serviceMock}
+        {provider: ShipsService, useValue: serviceMock}
       ]
     })
     .compileComponents();

@@ -40,12 +40,21 @@ export class ShipsDetailsComponent implements OnInit, OnChanges {
     }
   }
 
-  getStarshipId(url) {
-    this.shipId = url.slice(0, -1);
-    const urlImage = `${this.shipId}.jpg`;
-    return urlImage !== '';
+  /**
+   * Method for returning the url so ship image can be loaded
+   * @param url url of the ship
+   * @returns the url pointing the ship image
+   */
+  getStarshipId(url: string) {
+    // Obtain the ship ID
+    this.shipId = url.slice(31, url.length - 1);
+    // Build the image src
+    return 'https://starwars-visualguide.com/assets/img/starships/' + this.shipId + '.jpg';
   }
 
+  /**
+   * Load the paginator config
+   */
   loadConfig() {
     this.config = {
       itemsPerPage: 5,
@@ -54,6 +63,9 @@ export class ShipsDetailsComponent implements OnInit, OnChanges {
     };
   }
 
+  /**
+   * Refresh the paginator config
+   */
   refreshConfig() {
     this.config.totalItems = this.dataList.length;
   }

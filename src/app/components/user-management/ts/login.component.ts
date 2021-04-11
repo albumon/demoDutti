@@ -47,11 +47,11 @@ export class LoginComponent implements OnInit {
       const registeredUsers: User[] = this.storageService.get('users');
       // Check if there is registered users
       if (GeneralUtil.hasValueArray(registeredUsers)) {
-        const existsUser = registeredUsers.filter((user: User) => {
-          return user.firstName === userLogin &&
+        const existsUser = registeredUsers.find((user: User) => {
+          return user.userName === userLogin &&
             user.password === password;
         });
-        if (existsUser) {
+        if (GeneralUtil.isWorkableObject(existsUser)) {
           this.router.navigate(['/principal/ships']);
         } else {
           this.unregistered = true;

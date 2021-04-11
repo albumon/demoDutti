@@ -18,7 +18,7 @@ export class RegisterComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private router: Router,
+    public router: Router,
     private storageService: LocalStorageService
   ) { }
 
@@ -46,10 +46,10 @@ export class RegisterComponent implements OnInit {
       const registeredUsers: User[] = GeneralUtil.hasValueArray(this.storageService.get('users')) ?
         this.storageService.get('users') : [];
       // Check if user already exists
-      const existsUser = registeredUsers.filter((user: User) => {
+      const existsUser = registeredUsers.find((user: User) => {
         return user.firstName === this.registerForm.value.userName;
       });
-      if (existsUser) {
+      if (GeneralUtil.isWorkableObject(existsUser)) {
         // Show error
         this.userExists = true;
       } else {
